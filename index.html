@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>client Vue.js</title>
+	<script src="https://unpkg.com/vue"></script>
+
+<script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+
+
+
+
+
+</head>
+<body>
+<div id="result">
+  <p>
+    <h2>Resultados de busqueda en api:</h2>
+
+  </p>
+  <hr>
+  <p>{{ answer }}</p>
+</div>
+<script>
+
+
+var watchExampleVM = new Vue({
+  el: '#result',
+  data: {
+    answer: axios.get('http://127.0.0.1:8000/snippets.json')
+    
+   
+  }
+  
+
+})
+</script>
+</body>
+</html>
