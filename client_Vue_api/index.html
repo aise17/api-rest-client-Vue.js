@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>client Vue.js</title>
+	<script src="https://unpkg.com/vue"></script>
+
+<script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/vue.resource/1.0.3/vue-resource.min.js"></script>
+
+
+
+
+</head>
+<body>
+<div id="result" >
+<div style="background-color: #F7F7F9" align="center">
+  <p>
+    <h2 >Resultados de busqueda en api:</h2>
+  </p>
+  <hr>
+  </div>
+  <div v-for='a in answer'>
+  <p>Titulo: {{a.title}} </p>
+  <p>Codigo: {{ a.code }} </p>
+  
+  <p>Linenos: {{ a.linenos }} Lenguage: {{ a.language }} </p>
+  <p>Estilo: {{ a.style }} </p>
+  <hr>
+
+
+  </div>
+  <hr>
+<button type="button" v-on:click="connection()">Connect</button>
+</div>
+<script>
+
+
+
+var app = new Vue({
+  el: '#result',
+  data: {
+    answer: ''
+  },
+
+  methods:{
+  	connection : function(){
+  		this.$http.get('http://localhost:8000/snippets.json')
+  		.then(response => {
+  			this.answer = response.data
+  		})
+               
+  	}
+  }
+
+
+
+
+     
+    
+   
+  
+
+})
+</script>
+</body>
+</html>
