@@ -12,55 +12,108 @@
 
 </head>
 <body>
-<div id="result" >
+
+
+
+
 <div style="background-color: #F7F7F9" align="center">
   <p>
     <h2 >Resultados de busqueda en api:</h2>
   </p>
   <hr>
-  </div>
-  <div v-for='a in answer'>
-  <p>Titulo: {{a.title}} </p>
-  <p>Codigo: {{ a.code }} </p>
-  
-  <p>Linenos: {{ a.linenos }} Lenguage: {{ a.language }} </p>
-  <p>Estilo: {{ a.style }} </p>
-  <hr>
-
-
-  </div>
-  <hr>
-<button type="button" v-on:click="connection()">Connect</button>
 </div>
+
+<div id="result" >
+<button type="button" v-on:click="connectionS()">Connect to snippets</button>
+<button type="button" v-on:click="connectionP()">Connect to post</button>
+<button type="button" v-on:click="connectionC()">Connect to comment</button>
+	
+
+
+
+<temp  v-for='a in answer'
+	v-bind='a'>
+	</temp>
+
+
+
+  
+  <hr>
+</div>
+
+
+
+
+
+</body>
+
+<script >
+	Vue.component('temp', {
+  template: `<div>
+    <li> Title: {{ title }}</li>
+    <p v-if='author'>Author: {{ author }}</p>
+    <p v-if='created'>Created: {{ created }}</p>
+    <p v-if='category'>Category: {{ category }}</p>
+    <p v-if='post'>Post: {{ post }}</p>
+    <p v-if='body'> Body: {{body }}</p>
+    <p v-if='code'> Code: {{code }}</p>
+    <p v-if='linenos'>Lieneos: {{linenos}}</p>
+    <p v-if='language'>Language: {{language}}</p>
+    <p v-if='status'>Status: {{status}}</p>
+    <p v-if='style'>Style: {{style}}</p>
+
+
+    <hr>
+   </div>
+    
+
+  `,
+  props: ['author','category', 'created', 'title', 'code', 'linenos', 'language', 'style', 'body', 'status', 'post']
+})
+
+</script>
+
+
+
+
+
 <script>
-
-
-
 var app = new Vue({
   el: '#result',
   data: {
-    answer: ''
+    answer: '',
   },
 
   methods:{
-  	connection : function(){
+  	connectionS : function(){
   		this.$http.get('http://localhost:8000/snippets.json')
+  		.then(response => {
+  			this.answer = response.data
+  			component=> tempP
+  		})
+        
+  	},
+  	connectionP : function(){
+	this.$http.get('http://localhost:8000/post.json')
+		.then(response => {
+			this.answer = response.data
+		})
+	              
+  	},
+  	connectionC : function(){
+  		this.$http.get('http://localhost:8000/comment.json')
   		.then(response => {
   			this.answer = response.data
   		})
                
-  	}
-  }
-
-
-
-
-     
-    
-   
+  	},
+  },
   
+ 
+ 
 
 })
+
+
 </script>
-</body>
 </html>
