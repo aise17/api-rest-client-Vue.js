@@ -13,12 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+
 from django.contrib import admin
 from snippets import views
 from django.conf.urls import url, include
+from django.contrib.auth.models import User, Group
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('snippets.urls'))
+    url(r'^', include('snippets.urls')),
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_providers')),
+    url(r'^sing_up/$', views.SingUp.as_view(), name='sing_up'),
+
 ]

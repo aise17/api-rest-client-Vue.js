@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from snippets.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES, Post, Comment, Category
-
+from django.contrib.auth.models import User, Group
 
 class SnippetSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -75,3 +75,12 @@ class CategorySerializer(serializers.ModelSerializer):
 		instance.name = validated_data.get('name', validated_data)
 		instance.save()
 		return instance		
+
+
+class SingUpSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = User
+		fields = ('username', 'password')
+		write_only_fields = ('password',)
+
+

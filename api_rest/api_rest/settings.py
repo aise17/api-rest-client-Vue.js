@@ -40,10 +40,22 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'snippets.apps.SnippetsConfig',
+    'snippets',
     'corsheaders',
+    'oauth2_provider',
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'oauth2_provider.backends.OAuth2Backend',
+    'django.contrib.auth.backends.ModelBackend', 
+)
+
+
+REST_FRAMEWORK ={
+    'DEFAULT _AUTHENTICATION_CLASSES': (
+        'oauth2_provider.ext.rest_framework.OAuth2 Authentication',
+        )
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,6 +66,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
 ]
 
 ROOT_URLCONF = 'api_rest.urls'
@@ -82,8 +96,12 @@ WSGI_APPLICATION = 'api_rest.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'api_rest', 
+        'USER': 'root', 
+        'PASSWORD': 'swdzswdz', 
+        'HOST': 'localhost',  
+        'PORT': '3306', 
     }
 }
 
