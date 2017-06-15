@@ -78,6 +78,32 @@
 
 
 <script>
+
+var option1 = {
+  url: 'http://localhost:8000/snippets.json',
+  method: 'GET',
+  headers:
+  {
+    Authorization: 'Bearer RzSlyIIYNPJYj2pZoFgr7Trbz8XQig'
+  }
+}
+var option2 = {
+  url: 'http://localhost:8000/post.json',
+  method: 'GET',
+  headers:
+  {
+    Authorization: 'Bearer RzSlyIIYNPJYj2pZoFgr7Trbz8XQig'
+  }
+}
+var option3 = {
+  url: 'http://localhost:8000/comment.json',
+  method: 'GET',
+  headers:
+  {
+    Authorization: 'Bearer RzSlyIIYNPJYj2pZoFgr7Trbz8XQig'
+  }
+}
+
 var app = new Vue({
   el: '#result',
   data: {
@@ -86,22 +112,23 @@ var app = new Vue({
 
   methods:{
   	connectionS : function(){
-  		this.$http.get('http://localhost:8000/snippets.json')
-  		.then(response => {
+      //this.$http.headers.common.Authorization = 'Bearer RzSlyIIYNPJYj2pZoFgr7Trbz8XQig';
+  		this.$http(option1)
+      .then(response => {
   			this.answer = response.data
-  			component=> tempP
+
   		})
         
   	},
   	connectionP : function(){
-	this.$http.get('http://localhost:8000/post.json')
+	this.$http(option2)
 		.then(response => {
 			this.answer = response.data
 		})
 	              
   	},
   	connectionC : function(){
-  		this.$http.get('http://localhost:8000/comment.json')
+  		this.$http(option3)
   		.then(response => {
   			this.answer = response.data
   		})
