@@ -27,7 +27,10 @@
 <button type="button" v-on:click="connectionS()">Connect to snippets</button>
 <button type="button" v-on:click="connectionP()">Connect to post</button>
 <button type="button" v-on:click="connectionC()">Connect to comment</button>
-	
+<button type="button" v-on:click="getToken()">get token</button>
+<p v-if='token'>{{token}}</p>
+<p v-else='token'> no tines token de registro</p> 
+<hr>
 
 
 
@@ -61,14 +64,16 @@
     <p v-if='language'>Language: {{language}}</p>
     <p v-if='status'>Status: {{status}}</p>
     <p v-if='style'>Style: {{style}}</p>
-
+    <p >Token: {{token}}</p>
 
     <hr>
    </div>
     
 
   `,
-  props: ['author','category', 'created', 'title', 'code', 'linenos', 'language', 'style', 'body', 'status', 'post']
+  props: ['author','category', 'created', 'title', 'code', 'linenos', 'language', 'style', 'body', 'status', 'post', 'token']
+
+
 })
 
 </script>
@@ -78,13 +83,13 @@
 
 
 <script>
-
+var token = 'Bearer RzSlyIIYNPJYj2pZoFgr7Trbz8XQig'
 var option1 = {
   url: 'http://localhost:8000/snippets.json',
   method: 'GET',
   headers:
   {
-    Authorization: 'Bearer RzSlyIIYNPJYj2pZoFgr7Trbz8XQig'
+    Authorization: this.token
   }
 }
 var option2 = {
@@ -92,7 +97,7 @@ var option2 = {
   method: 'GET',
   headers:
   {
-    Authorization: 'Bearer RzSlyIIYNPJYj2pZoFgr7Trbz8XQig'
+    Authorization: this.token
   }
 }
 var option3 = {
@@ -100,19 +105,22 @@ var option3 = {
   method: 'GET',
   headers:
   {
-    Authorization: 'Bearer RzSlyIIYNPJYj2pZoFgr7Trbz8XQig'
+    Authorization: this.token
   }
+}
+var optionToken = {
+
 }
 
 var app = new Vue({
   el: '#result',
   data: {
     answer: '',
+    token:this.token
   },
 
   methods:{
   	connectionS : function(){
-      //this.$http.headers.common.Authorization = 'Bearer RzSlyIIYNPJYj2pZoFgr7Trbz8XQig';
   		this.$http(option1)
       .then(response => {
   			this.answer = response.data
@@ -121,7 +129,7 @@ var app = new Vue({
         
   	},
   	connectionP : function(){
-	this.$http(option2)
+	   this.$http(option2)
 		.then(response => {
 			this.answer = response.data
 		})
@@ -134,6 +142,28 @@ var app = new Vue({
   		})
                
   	},
+    getToken : function(){
+      
+      var optionToken = {
+        url: "http://localhost:8000/o/token/",
+        method: 'POST',
+        body:
+        {
+        grant_type:'password',
+        username: 'sergio',
+        pasword: 'swdzswdz',
+        client_id: 'H70nJfj4f76Dtu0yJvkoRWz26eekNl3TdcV7Hpmn',
+        client_secret: 'yMW3H27RXvmU5QYF8f0jSwCyulV24mVfdZZzwx2yXkENj9P6tPHkgRZBYhpyyqo2DrnQZO2pYc3cCwPb7rVnrKeFHOpupLv4sDA3IKTCHrbjxp5ojGcgSGcfdnu6KFmO',
+
+        }
+      }
+
+
+    this.$http(optionToken)
+    .then(response => {
+      this.token = response.bodyText.promise
+    })
+    },
   },
   
  
